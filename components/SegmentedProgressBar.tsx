@@ -69,13 +69,15 @@ export default function SegmentedProgressBar({
 
                     return (
                         <div key={stage.id} className={getSegmentClasses(stage)}>
-                            {/* Stage Label & Location */}
-                            <div className="flex flex-col gap-1 min-h-[3.5rem]">
-                                <span className="text-[10px] font-bold text-vmap-red uppercase tracking-widest">
-                                    Stage {stage.id}: {stage.label}
+                            <div className="flex flex-col gap-0.5 min-h-[4rem]">
+                                <span className="text-[10px] font-black text-vmap-red uppercase tracking-widest">
+                                    {stage.name}
                                 </span>
-                                <span className="text-vmap-text font-semibold text-sm leading-tight">
-                                    {stage.location || 'Pending Determination'}
+                                <span className="text-vmap-text font-bold text-sm leading-tight">
+                                    {stage.location || 'Pending'}
+                                </span>
+                                <span className="text-[10px] font-semibold text-vmap-text-secondary uppercase tracking-tight">
+                                    {stage.date || 'Pending'}
                                 </span>
                             </div>
 

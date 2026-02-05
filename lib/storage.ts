@@ -69,43 +69,53 @@ export function clearSession(): void {
 }
 
 /**
- * Get consignment data from API
+ * Get consignment data from localStorage
  */
 export async function getConsignment(consignmentId: string): Promise<ConsignmentData | null> {
-    try {
-        const response = await fetch(`/api/consignment/${consignmentId}`);
-        if (!response.ok) return null;
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching consignment:', error);
-        return null;
+    if (typeof window === 'undefined') return null;
+
+    // First check local storage
+    const localData = localStorage.getItem(`consignment_${consignmentId}`);
+    if (localData) {
+        return JSON.parse(localData);
     }
+
+    // Fallback/Seed for the demo consignment
+    if (consignmentId === 'VM-7712') {
+        const defaultData: ConsignmentData = {
+            consignmentId: 'VM-7712',
+            authorizationKeyHint: 'VMA-7*** / CN-20***',
+            progressPercent: 40,
+            progress: {
+                totalProgress: 40,
+                currentStage: 2,
+                stages: [
+                    { id: 1, name: 'Extraction', location: 'The Port of Hong Kong', date: '2026-02-01', status: 'COMPLETED' },
+                    { id: 2, name: 'Regional Hub Sorting', location: 'Singapore (SIN)', date: '2026-02-04', status: 'IN_PROGRESS' },
+                    { id: 3, name: 'Customs Clearance', location: 'Dubai (DXB)', date: 'Pending', status: 'LOCKED' },
+                    { id: 4, name: 'Final Dispatch', location: 'London (LHR)', date: 'Pending', status: 'LOCKED' },
+                ],
+            },
+            transportMedium: 'Sea',
+            updatedAt: new Date().toISOString(),
+        };
+        localStorage.setItem(`consignment_${consignmentId}`, JSON.stringify(defaultData));
+        return defaultData;
+    }
+
+    return null;
 }
 
 /**
- * Set consignment data via API
+ * Set consignment data in localStorage
  */
 export async function setConsignment(consignment: ConsignmentData): Promise<boolean> {
+    if (typeof window === 'undefined') return false;
     try {
-        const response = await fetch('/api/admin/consignment', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(consignment),
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            console.error('API Error details:', {
-                status: response.status,
-                statusText: response.statusText,
-                data: errorData
-            });
-            return false;
-        }
-
+        localStorage.setItem(`consignment_${consignment.consignmentId}`, JSON.stringify(consignment));
         return true;
     } catch (error) {
-        console.error('Error setting consignment:', error);
+        console.error('Error saving consignment to localStorage:', error);
         return false;
     }
 }

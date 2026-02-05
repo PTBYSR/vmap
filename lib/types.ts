@@ -34,8 +34,10 @@ export type StageStatus =
 
 export interface Stage {
   id: number;
-  label: string;
+  name: string;      // Extraction, Hub, etc.
+  label?: string;    // Keep for compatibility if used elsewhere
   location: string;
+  date: string;      // Editable date or "Pending"
   status: StageStatus;
 }
 
@@ -54,6 +56,7 @@ export interface LogEntry {
 export interface ConsignmentData {
   consignmentId: string;
   authorizationKeyHint?: string;
+  progressPercent: number; // 0-100%
   progress: {
     totalProgress: number; // 0-100% of the entire journey
     currentStage: number; // 1-4

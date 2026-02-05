@@ -128,7 +128,7 @@ export default function DashboardPage() {
 
                                 <SegmentedProgressBar
                                     stages={consignment.progress.stages}
-                                    totalProgress={consignment.progress.totalProgress || 0}
+                                    totalProgress={(consignment.progressPercent ?? consignment.progress.totalProgress) || 0}
                                 />
                             </div>
 

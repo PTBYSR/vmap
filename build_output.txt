@@ -8,52 +8,15 @@
    Creating an optimized production build ...
  ✓ Compiled successfully
    Linting and checking validity of types ...
-
 Failed to compile.
 
-./app/admin/page.tsx
-59:18  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+./app/api/admin/seed/route.ts:39:21
+Type error: Type '{ id: number; label: string; location: string; status: "COMPLETED"; }' is missing the following properties from type 'Stage': name, date
 
-./app/api/admin/consignment/route.ts
-19:17  Warning: '_id' is assigned a value but never used.  @typescript-eslint/no-unused-vars
-19:48  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-./app/api/portal/login/route.ts
-20:14  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
-
-./app/api/portal/verify-otp/route.ts
-26:14  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
-
-./app/portal/2fa/page.tsx
-59:18  Warning: 'err' is defined but never used.  @typescript-eslint/no-unused-vars
-
-./app/portal/page.tsx
-6:31  Warning: 'setSession' is defined but never used.  @typescript-eslint/no-unused-vars
-34:18  Warning: 'err' is defined but never used.  @typescript-eslint/no-unused-vars
-
-./components/AdminProtectedRoute.tsx
-19:13  Error: Error: Calling setState synchronously within an effect can trigger cascading renders
-
-Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
-* Update external systems with the latest state from React.
-* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
-
-Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
-
-C:\Users\paule\OneDrive\Desktop\pase-tech\vmap\components\AdminProtectedRoute.tsx:19:13
-  17 |         if (!authed) {
-  18 |             router.push('/admin/login');
-> 19 |             setIsAuthorized(false);
-     |             ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
-  20 |         } else {
-  21 |             setIsAuthorized(true);
-  22 |         }  react-hooks/set-state-in-effect
-
-./components/ProtectedRoute.tsx
-23:13  Warning: Unused eslint-disable directive (no problems were reported from 'react-hooks/set-state-in-effect').
-
-./lib/storage.ts
-1:10  Warning: 'AuthRecord' is defined but never used.  @typescript-eslint/no-unused-vars
-1:22  Warning: 'Client' is defined but never used.  @typescript-eslint/no-unused-vars
-
-info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+[0m [90m 37 |[39m                 currentStage[33m:[39m [35m2[39m[33m,[39m[0m
+[0m [90m 38 |[39m                 stages[33m:[39m [[0m
+[0m[31m[1m>[22m[39m[90m 39 |[39m                     { id[33m:[39m [35m1[39m[33m,[39m label[33m:[39m [32m'Extraction'[39m[33m,[39m location[33m:[39m [32m'The Port of Hong Kong'[39m[33m,[39m status[33m:[39m [32m'COMPLETED'[39m }[33m,[39m[0m
+[0m [90m    |[39m                     [31m[1m^[22m[39m[0m
+[0m [90m 40 |[39m                     { id[33m:[39m [35m2[39m[33m,[39m label[33m:[39m [32m'Regional Hub Sorting'[39m[33m,[39m location[33m:[39m [32m'Singapore (SIN)'[39m[33m,[39m status[33m:[39m [32m'IN_PROGRESS'[39m }[33m,[39m[0m
+[0m [90m 41 |[39m                     { id[33m:[39m [35m3[39m[33m,[39m label[33m:[39m [32m'Customs/Regulatory Clearance'[39m[33m,[39m location[33m:[39m [32m'Dubai (DXB)'[39m[33m,[39m status[33m:[39m [32m'LOCKED'[39m }[33m,[39m[0m
+[0m [90m 42 |[39m                     { id[33m:[39m [35m4[39m[33m,[39m label[33m:[39m [32m'Final Dispatch'[39m[33m,[39m location[33m:[39m [32m'London (LHR)'[39m[33m,[39m status[33m:[39m [32m'LOCKED'[39m }[33m,[39m[0m

@@ -10,6 +10,7 @@ import {
     clearAdminSession,
 } from '@/lib/storage';
 import { ConsignmentData, StageStatus, Stage } from '@/lib/types';
+import CustomDatePicker from '@/components/CustomDatePicker';
 
 export default function AdminPage() {
     const router = useRouter();
@@ -18,9 +19,9 @@ export default function AdminPage() {
     const [message, setMessage] = useState('');
 
     // Form states
-    const [totalProgress, setTotalProgress] = useState(0);
+    const [progressPercent, setProgressPercent] = useState(0);
     const [transportMedium, setTransportMedium] = useState<'Air' | 'Sea' | 'Land' | 'Pending'>('Pending');
-    const [stageLocations, setStageLocations] = useState<string[]>(['', '', '', '']);
+    const [stages, setStages] = useState<Stage[]>([]);
     const [loading, setLoading] = useState(false);
 
     const loadConsignment = async (id: string) => {
@@ -28,12 +29,12 @@ export default function AdminPage() {
         const data = await getConsignment(id);
         if (data) {
             setConsignmentState(data);
-            setTotalProgress(data.progress.totalProgress || 0);
+            setProgressPercent((data.progressPercent ?? data.progress.totalProgress) || 0);
             setTransportMedium(data.transportMedium || 'Pending');
-            setStageLocations(data.progress.stages.map((s) => s.location));
-            setMessage(`Loaded consignment: ${id}`);
+            setStages(data.progress.stages);
+            setMessage(`Loaded: ${id}`);
         } else {
-            setMessage(`Consignment ${id} not found`);
+            setMessage(`Not found: ${id}`);
         }
         setLoading(false);
     };
@@ -82,10 +83,9 @@ export default function AdminPage() {
 
     const getPreviewStages = (): Stage[] | undefined => {
         if (!consignment) return undefined;
-        return consignment.progress.stages.map((stage, index) => ({
+        return stages.map((stage, index) => ({
             ...stage,
-            location: stageLocations[index],
-            status: calculateStageStatus(index + 1, totalProgress)
+            status: calculateStageStatus(index + 1, progressPercent)
         }));
     };
 
@@ -95,13 +95,13 @@ export default function AdminPage() {
 
         const updatedConsignment: ConsignmentData = {
             ...consignment,
+            progressPercent,
             progress: {
-                totalProgress,
-                currentStage: calculateCurrentStage(totalProgress),
-                stages: consignment.progress.stages.map((stage, index) => ({
+                totalProgress: progressPercent,
+                currentStage: calculateCurrentStage(progressPercent),
+                stages: stages.map((stage, index) => ({
                     ...stage,
-                    location: stageLocations[index],
-                    status: calculateStageStatus(index + 1, totalProgress),
+                    status: calculateStageStatus(index + 1, progressPercent),
                 })),
             },
             transportMedium,
@@ -111,17 +111,19 @@ export default function AdminPage() {
         const success = await setConsignment(updatedConsignment);
         if (success) {
             setConsignmentState(updatedConsignment);
-            setMessage('Changes saved successfully');
+            setMessage('Saved successfully');
+            setTimeout(() => setMessage(''), 3000); // Auto-dismiss
         } else {
-            setMessage('Failed to save changes');
+            setMessage('Error: Could not save');
+            setTimeout(() => setMessage(''), 5000); // Error stays longer
         }
         setLoading(false);
     };
 
-    const handleLocationChange = (index: number, value: string) => {
-        const newLocations = [...stageLocations];
-        newLocations[index] = value;
-        setStageLocations(newLocations);
+    const handleStageChange = (index: number, field: keyof Stage, value: string) => {
+        const newStages = [...stages];
+        newStages[index] = { ...newStages[index], [field]: value };
+        setStages(newStages);
     };
 
     const handleLogout = () => {
@@ -160,10 +162,23 @@ export default function AdminPage() {
                 </div>
 
                 <div className="container mx-auto px-4 py-8">
-                    {/* Message */}
+                    {/* Floating Notification Toast */}
                     {message && (
-                        <div className="mb-6 p-4 bg-gray-900 border-l-4 border-vmap-red text-white text-sm animate-in fade-in slide-in-from-top-4 duration-300">
-                            <span className="font-bold mr-2 text-vmap-red">NOTICE:</span> {message}
+                        <div className="fixed bottom-8 right-8 z-[200] animate-in slide-in-from-bottom-5 fade-in duration-300">
+                            <div className={`px-6 py-4 rounded-lg shadow-2xl border flex items-center gap-3 min-w-[200px] ${message.includes('Error')
+                                ? 'bg-red-50 border-red-200 text-vmap-red'
+                                : 'bg-green-50 border-green-200 text-green-700'
+                                }`}>
+                                <span className="text-sm font-bold uppercase tracking-widest flex items-center gap-2">
+                                    {message.includes('Error') ? '❌' : '✅'} {message}
+                                </span>
+                                <button
+                                    onClick={() => setMessage('')}
+                                    className="ml-auto text-xs opacity-50 hover:opacity-100"
+                                >
+                                    ✕
+                                </button>
+                            </div>
                         </div>
                     )}
 
@@ -181,23 +196,23 @@ export default function AdminPage() {
                             <div className="p-6 bg-gray-50/30">
                                 <SegmentedProgressBar
                                     stages={getPreviewStages() || []}
-                                    totalProgress={totalProgress}
+                                    totalProgress={progressPercent}
                                 />
                             </div>
                         </div>
                     )}
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        {/* LEFT PANEL: Consignment Control */}
+                        {/* LEFT PANEL: Find Parcel */}
                         <div className="bg-white border border-gray-200 rounded p-6 shadow-sm">
                             <h2 className="text-sm font-bold text-vmap-text mb-6 uppercase tracking-wider border-b border-gray-100 pb-2">
-                                Data Retrieval
+                                Find Parcel
                             </h2>
 
                             <div className="space-y-4">
                                 <div>
                                     <label className="block text-[10px] font-bold text-vmap-text-secondary mb-2 uppercase tracking-widest">
-                                        Consignment Reference
+                                        Tracking Number
                                     </label>
                                     <input
                                         type="text"
@@ -214,14 +229,14 @@ export default function AdminPage() {
                                         disabled={loading}
                                         className="flex-1 px-4 py-3 bg-vmap-red text-white text-xs font-bold rounded hover:bg-red-800 transition-colors disabled:opacity-50 uppercase tracking-widest"
                                     >
-                                        Pull Data
+                                        Load
                                     </button>
                                     <button
                                         onClick={handleSeedDefault}
                                         disabled={loading}
                                         className="flex-1 px-4 py-3 border border-gray-300 text-xs font-bold rounded hover:bg-gray-50 transition-colors disabled:opacity-50 uppercase tracking-widest"
                                     >
-                                        Factory Seed
+                                        Reset Demo
                                     </button>
                                 </div>
                             </div>
@@ -277,10 +292,10 @@ export default function AdminPage() {
                                     <div>
                                         <div className="flex justify-between items-center mb-6">
                                             <label className="text-[10px] font-bold text-vmap-text-secondary uppercase tracking-widest">
-                                                Global Progress: {totalProgress}%
+                                                Journey Progress: {progressPercent}%
                                             </label>
                                             <span className="text-[10px] font-bold px-2 py-1 bg-vmap-red text-white uppercase tracking-tighter rounded">
-                                                Stage {calculateCurrentStage(totalProgress)} Active
+                                                Stage {calculateCurrentStage(progressPercent)} Active
                                             </span>
                                         </div>
 
@@ -289,41 +304,89 @@ export default function AdminPage() {
                                                 type="range"
                                                 min="0"
                                                 max="100"
-                                                value={totalProgress}
-                                                onChange={(e) => setTotalProgress(Number(e.target.value))}
+                                                value={progressPercent}
+                                                onChange={(e) => setProgressPercent(Number(e.target.value))}
                                                 className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-vmap-red relative z-10"
                                             />
-                                            {/* Unified Scale Ticks */}
-                                            <div className="absolute top-1 left-0 w-full h-4 flex justify-between pointer-events-none">
+                                            {/* Unified Scale Ticks & Snap Checkpoints */}
+                                            <div className="absolute top-1 left-0 w-full h-8 flex justify-between">
                                                 {[0, 25, 50, 75, 100].map((val) => (
                                                     <div key={val} className="flex flex-col items-center flex-1 first:flex-none first:w-0 last:flex-none last:w-0" style={{ width: val === 0 || val === 100 ? '0' : '25%' }}>
-                                                        <div className={`w-0.5 h-3 ${totalProgress >= val ? 'bg-vmap-red' : 'bg-gray-200'}`} />
-                                                        <span className="text-[9px] font-bold text-gray-400 mt-2">{val}%</span>
+                                                        <input
+                                                            type="radio"
+                                                            name="checkpoint"
+                                                            checked={progressPercent === val}
+                                                            onChange={() => setProgressPercent(val)}
+                                                            className="mb-1 cursor-pointer accent-vmap-red w-3 h-3"
+                                                            title={`Snap to ${val}%`}
+                                                        />
+                                                        <div className={`w-0.5 h-2 ${progressPercent >= val ? 'bg-vmap-red' : 'bg-gray-200'}`} />
+                                                        <span className="text-[9px] font-bold text-gray-400 mt-1">{val}%</span>
                                                     </div>
                                                 ))}
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Location Overrides */}
-                                    <div className="space-y-4 pt-4 border-t border-gray-100">
+                                    {/* Stage Details Table */}
+                                    <div className="pt-4 border-t border-gray-100">
                                         <h3 className="text-[10px] font-bold text-vmap-text-secondary uppercase tracking-widest mb-4">
-                                            Jurisdictional Location Mapping
+                                            Stage Information
                                         </h3>
-                                        {consignment.progress.stages.map((stage, index) => (
-                                            <div key={stage.id} className="relative">
-                                                <div className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center text-[10px] font-bold text-vmap-text-secondary border border-gray-200">
-                                                    {stage.id}
-                                                </div>
-                                                <input
-                                                    type="text"
-                                                    value={stageLocations[index]}
-                                                    onChange={(e) => handleLocationChange(index, e.target.value)}
-                                                    className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded text-xs focus:outline-none focus:border-vmap-red bg-white font-medium"
-                                                    placeholder={`Coordinates or Location for Stage ${stage.id}`}
-                                                />
-                                            </div>
-                                        ))}
+                                        <div className="overflow-x-auto">
+                                            <table className="w-full text-left text-xs">
+                                                <thead>
+                                                    <tr className="border-b border-gray-100">
+                                                        <th className="pb-2 font-bold text-vmap-text-secondary uppercase tracking-tighter">Stage Name</th>
+                                                        <th className="pb-2 font-bold text-vmap-text-secondary uppercase tracking-tighter">Location</th>
+                                                        <th className="pb-2 font-bold text-vmap-text-secondary uppercase tracking-tighter">Date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="divide-y divide-gray-50">
+                                                    {stages.map((stage, index) => {
+                                                        const previousStageDate = index > 0 ? stages[index - 1].date : undefined;
+
+                                                        // Map showing which date belongs to which stage ID
+                                                        const flaggedDates: Record<string, number> = {};
+                                                        stages.forEach((s, i) => {
+                                                            if (i !== index && s.date && s.date !== 'Pending') {
+                                                                flaggedDates[s.date] = s.id;
+                                                            }
+                                                        });
+
+                                                        return (
+                                                            <tr key={stage.id}>
+                                                                <td className="py-2">
+                                                                    <input
+                                                                        type="text"
+                                                                        value={stage.name}
+                                                                        onChange={(e) => handleStageChange(index, 'name', e.target.value)}
+                                                                        className="w-full px-2 py-1.5 border border-gray-200 rounded text-[11px] font-medium focus:outline-none focus:border-vmap-red"
+                                                                        placeholder="e.g. Extraction"
+                                                                    />
+                                                                </td>
+                                                                <td className="py-2">
+                                                                    <input
+                                                                        type="text"
+                                                                        value={stage.location}
+                                                                        onChange={(e) => handleStageChange(index, 'location', e.target.value)}
+                                                                        className="w-full px-2 py-1.5 border border-gray-200 rounded text-[11px] focus:outline-none focus:border-vmap-red"
+                                                                    />
+                                                                </td>
+                                                                <td className="py-2">
+                                                                    <CustomDatePicker
+                                                                        value={stage.date}
+                                                                        onChange={(date) => handleStageChange(index, 'date', date)}
+                                                                        minDate={previousStageDate}
+                                                                        flaggedDates={flaggedDates}
+                                                                    />
+                                                                </td>
+                                                            </tr>
+                                                        );
+                                                    })}
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
 
                                     {/* Commit Changes */}
@@ -332,7 +395,7 @@ export default function AdminPage() {
                                         disabled={loading}
                                         className="w-full px-4 py-4 bg-vmap-red text-white text-xs font-bold rounded hover:bg-red-800 transition-all shadow-md active:scale-[0.98] disabled:opacity-50 uppercase tracking-[0.2em]"
                                     >
-                                        {loading ? 'Committing Telemetry...' : 'Commit Tracking Updates'}
+                                        {loading ? 'Saving...' : 'Save Changes'}
                                     </button>
                                 </div>
                             ) : (

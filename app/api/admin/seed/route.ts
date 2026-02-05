@@ -32,14 +32,15 @@ export async function POST() {
         const defaultConsignment: ConsignmentData = {
             consignmentId: 'VM-7712',
             authorizationKeyHint: 'VMA-7*** / CN-20***',
+            progressPercent: 40,
             progress: {
                 totalProgress: 40,
                 currentStage: 2,
                 stages: [
-                    { id: 1, label: 'Extraction', location: 'The Port of Hong Kong', status: 'COMPLETED' },
-                    { id: 2, label: 'Regional Hub Sorting', location: 'Singapore (SIN)', status: 'IN_PROGRESS' },
-                    { id: 3, label: 'Customs/Regulatory Clearance', location: 'Dubai (DXB)', status: 'LOCKED' },
-                    { id: 4, label: 'Final Dispatch', location: 'London (LHR)', status: 'LOCKED' },
+                    { id: 1, name: 'Extraction', label: 'Extraction', location: 'The Port of Hong Kong', date: '2026-02-01', status: 'COMPLETED' },
+                    { id: 2, name: 'Regional Hub Sorting', label: 'Regional Hub Sorting', location: 'Singapore (SIN)', date: '2026-02-03', status: 'IN_PROGRESS' },
+                    { id: 3, name: 'Customs Clearance', label: 'Customs/Regulatory Clearance', location: 'Dubai (DXB)', date: 'Pending', status: 'LOCKED' },
+                    { id: 4, name: 'Final Dispatch', label: 'Final Dispatch', location: 'London (LHR)', date: 'Pending', status: 'LOCKED' },
                 ],
             },
             transportMedium: 'Sea',
