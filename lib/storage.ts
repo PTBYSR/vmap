@@ -91,9 +91,9 @@ export async function getConsignment(consignmentId: string): Promise<Consignment
                 currentStage: 2,
                 stages: [
                     { id: 1, name: 'Extraction', location: 'The Port of Hong Kong', date: '2026-02-01', status: 'COMPLETED' },
-                    { id: 2, name: 'Regional Hub Sorting', location: 'Singapore (SIN)', date: '2026-02-04', status: 'IN_PROGRESS' },
-                    { id: 3, name: 'Customs Clearance', location: 'Dubai (DXB)', date: 'Pending', status: 'LOCKED' },
-                    { id: 4, name: 'Final Dispatch', location: 'London (LHR)', date: 'Pending', status: 'LOCKED' },
+                    { id: 2, name: 'Regional Hub Sorting', location: 'Singapore (SIN)', date: '2026-02-04', status: 'ACTIVE' },
+                    { id: 3, name: 'Customs Clearance', location: 'Dubai (DXB)', date: 'Pending', status: 'PENDING' },
+                    { id: 4, name: 'Final Dispatch', location: 'London (LHR)', date: 'Pending', status: 'PENDING' },
                 ],
             },
             transportMedium: 'Sea',

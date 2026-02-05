@@ -26,11 +26,11 @@ export interface Session {
 // Admin-Controlled Tracking Dashboard Types
 
 export type StageStatus =
+  | 'ACTIVE'
+  | 'PENDING'
+  | 'PAUSED'
   | 'COMPLETED'
-  | 'IN_PROGRESS'
-  | 'ALERT_YELLOW'
-  | 'ALERT_RED'
-  | 'LOCKED';
+  | 'SKIPPED'; // keeping SKIPPED just in case, or maybe just stick to the requested ones plus generic fallback
 
 export interface Stage {
   id: number;

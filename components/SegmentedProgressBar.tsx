@@ -23,7 +23,7 @@ export default function SegmentedProgressBar({
 
     const getSegmentClasses = (stage: Stage): string => {
         const baseClasses = 'relative flex flex-col gap-2';
-        if (stage.status === 'LOCKED') {
+        if (stage.status === 'PENDING') {
             return `${baseClasses} opacity-50`;
         }
         return baseClasses;
@@ -32,9 +32,11 @@ export default function SegmentedProgressBar({
     const getFillClasses = (stage: Stage): string => {
         let classes = 'h-full rounded-full transition-all duration-300 relative';
 
-        if (stage.status === 'COMPLETED' || stage.status === 'IN_PROGRESS') {
-            classes += ' bg-green-500'; // Requested green aesthetics
-        } else if (stage.status === 'LOCKED') {
+        if (stage.status === 'COMPLETED' || stage.status === 'ACTIVE') {
+            classes += ' bg-green-500';
+        } else if (stage.status === 'PAUSED') {
+            classes += ' bg-orange-500';
+        } else if (stage.status === 'PENDING') {
             classes += ' bg-gray-200';
         } else {
             classes += ' bg-green-500';
@@ -100,7 +102,12 @@ export default function SegmentedProgressBar({
 
                             {/* Status Marker */}
                             <div className="flex justify-between items-center text-[10px] font-medium text-vmap-text-secondary mt-1">
-                                <span>{stage.status.replace('_', ' ')}</span>
+                                <span className={
+                                    stage.status === 'PAUSED' ? 'text-orange-500 font-bold' :
+                                        stage.status === 'ACTIVE' ? 'text-green-600 font-bold' : ''
+                                }>
+                                    {stage.status}
+                                </span>
                                 {stage.status === 'COMPLETED' && <span className="text-green-600 font-bold">✓</span>}
                             </div>
                         </div>

@@ -82,7 +82,6 @@ export default function TwoFactorPage() {
                                     type="text"
                                     id="otp"
                                     className="form-input form-input-code"
-                                    placeholder="123456"
                                     value={otp}
                                     onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
                                     maxLength={6}

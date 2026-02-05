@@ -59,7 +59,6 @@ export default function AdminLoginPage() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-vmap-red transition-colors"
-                                placeholder="admin@vmap.local"
                                 required
                             />
                         </div>
@@ -74,7 +73,6 @@ export default function AdminLoginPage() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-vmap-red transition-colors"
-                                placeholder="••••••••"
                                 required
                             />
                         </div>

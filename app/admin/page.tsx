@@ -78,16 +78,13 @@ export default function AdminPage() {
         const stageEnd = stageId * 25;
         const stageStart = (stageId - 1) * 25;
         if (progress >= stageEnd) return 'COMPLETED';
-        if (progress > stageStart) return 'IN_PROGRESS';
-        return 'LOCKED';
+        if (progress > stageStart) return 'ACTIVE';
+        return 'PENDING';
     };
 
     const getPreviewStages = (): Stage[] | undefined => {
         if (!consignment) return undefined;
-        return stages.map((stage, index) => ({
-            ...stage,
-            status: calculateStageStatus(index + 1, progressPercent)
-        }));
+        return stages;
     };
 
     const handleSave = async () => {
@@ -344,9 +341,10 @@ export default function AdminPage() {
                                                 <table className="w-full text-left">
                                                     <thead>
                                                         <tr className="border-b border-gray-50">
-                                                            <th className="pb-3 text-[9px] font-black text-vmap-text-secondary uppercase tracking-widest">Stage</th>
-                                                            <th className="pb-3 text-[9px] font-black text-vmap-text-secondary uppercase tracking-widest">Location</th>
-                                                            <th className="pb-3 text-[9px] font-black text-vmap-text-secondary uppercase tracking-widest">Timeline</th>
+                                                            <th className="pb-3 text-[9px] font-black text-vmap-text-secondary uppercase tracking-widest block w-[160px]">Stage</th>
+                                                            <th className="pb-3 text-[9px] font-black text-vmap-text-secondary uppercase tracking-widest pl-4">Location</th>
+                                                            <th className="pb-3 text-[9px] font-black text-vmap-text-secondary uppercase tracking-widest pl-4 block w-[100px]">Status</th>
+                                                            <th className="pb-3 text-[9px] font-black text-vmap-text-secondary uppercase tracking-widest pl-4">Timeline</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody className="divide-y divide-gray-50">
@@ -377,7 +375,23 @@ export default function AdminPage() {
                                                                             className="w-full bg-white border border-gray-100 rounded px-2 py-1 text-[10px] focus:outline-none focus:border-vmap-red/30"
                                                                         />
                                                                     </td>
-                                                                    <td className="py-2">
+                                                                    <td className="py-2 pr-4 pl-4">
+                                                                        <select
+                                                                            value={stage.status}
+                                                                            onChange={(e) => handleStageChange(index, 'status', e.target.value)}
+                                                                            className={`w-full text-[10px] font-bold uppercase tracking-wide border-none bg-transparent focus:ring-0 cursor-pointer ${stage.status === 'ACTIVE' ? 'text-green-600' :
+                                                                                stage.status === 'PAUSED' ? 'text-orange-500' :
+                                                                                    stage.status === 'COMPLETED' ? 'text-gray-900' :
+                                                                                        'text-gray-400'
+                                                                                }`}
+                                                                        >
+                                                                            <option value="PENDING" className="text-gray-500">Pending</option>
+                                                                            <option value="ACTIVE" className="text-green-600">Active</option>
+                                                                            <option value="PAUSED" className="text-orange-500">Paused</option>
+                                                                            <option value="COMPLETED" className="text-gray-900">Completed</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td className="py-2 pl-4">
                                                                         <CustomDatePicker
                                                                             value={stage.date}
                                                                             onChange={(date) => handleStageChange(index, 'date', date)}
