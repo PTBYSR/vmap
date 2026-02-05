@@ -45,6 +45,47 @@ export default function AdminPage() {
         loadConsignment('VM-7712');
     }, []);
 
+    // Effect to enforce stage constraints based on progress
+    useEffect(() => {
+        if (!stages.length) return;
+
+        const currentStageIndex = calculateCurrentStageIndex(progressPercent);
+
+        const updatedStages = stages.map((stage, index) => {
+            let newStatus = stage.status;
+
+            // Past stages must be COMPLETED
+            if (index < currentStageIndex) {
+                newStatus = 'COMPLETED';
+            }
+            // Future stages must be PENDING
+            else if (index > currentStageIndex) {
+                newStatus = 'PENDING';
+            }
+            // Current stage
+            else {
+                // If the current stage was previously locked/completed, default to ACTIVE
+                // But allow PAUSED if it's already set (don't overwrite user intent)
+                if (stage.status !== 'ACTIVE' && stage.status !== 'PAUSED') {
+                    // Only auto-activate if it was pending or completed (i.e. entering the stage)
+                    // But we want to be careful not to overwrite a user-set 'PAUSED' if we just slid the slider a bit within the same stage.
+                    // The simplest logic: If it's PENDING or COMPLETED, make it ACTIVE.
+                    // If it's ACTIVE or PAUSED, keep it as is.
+                    if (stage.status === 'PENDING' || stage.status === 'COMPLETED') {
+                        newStatus = 'ACTIVE';
+                    }
+                }
+            }
+            return { ...stage, status: newStatus };
+        });
+
+        // Only update state if something actually changed to avoid render loops
+        const hasChanges = updatedStages.some((s, i) => s.status !== stages[i].status);
+        if (hasChanges) {
+            setStages(updatedStages);
+        }
+    }, [progressPercent]); // Run whenever progress slider moves
+
     const handleLoad = async () => {
         await loadConsignment(consignmentId);
     };
@@ -66,20 +107,16 @@ export default function AdminPage() {
         setLoading(false);
     };
 
-    const calculateCurrentStage = (progress: number) => {
-        if (progress >= 100) return 4;
-        if (progress >= 75) return 4;
-        if (progress >= 50) return 3;
-        if (progress >= 25) return 2;
-        return 1;
+    const calculateCurrentStageIndex = (progress: number) => {
+        if (progress >= 100) return 3; // 4th stage (0-indexed)
+        if (progress >= 75) return 3;
+        if (progress >= 50) return 2;
+        if (progress >= 25) return 1;
+        return 0; // 1st stage
     };
 
-    const calculateStageStatus = (stageId: number, progress: number): StageStatus => {
-        const stageEnd = stageId * 25;
-        const stageStart = (stageId - 1) * 25;
-        if (progress >= stageEnd) return 'COMPLETED';
-        if (progress > stageStart) return 'ACTIVE';
-        return 'PENDING';
+    const calculateCurrentStage = (progress: number) => {
+        return calculateCurrentStageIndex(progress) + 1;
     };
 
     const getPreviewStages = (): Stage[] | undefined => {
@@ -97,10 +134,7 @@ export default function AdminPage() {
             progress: {
                 totalProgress: progressPercent,
                 currentStage: calculateCurrentStage(progressPercent),
-                stages: stages.map((stage, index) => ({
-                    ...stage,
-                    status: calculateStageStatus(index + 1, progressPercent),
-                })),
+                stages: stages,
             },
             transportMedium,
             updatedAt: new Date().toISOString(),
@@ -379,16 +413,26 @@ export default function AdminPage() {
                                                                         <select
                                                                             value={stage.status}
                                                                             onChange={(e) => handleStageChange(index, 'status', e.target.value)}
+                                                                            disabled={index !== calculateCurrentStageIndex(progressPercent)}
                                                                             className={`w-full text-[10px] font-bold uppercase tracking-wide border-none bg-transparent focus:ring-0 cursor-pointer ${stage.status === 'ACTIVE' ? 'text-green-600' :
-                                                                                stage.status === 'PAUSED' ? 'text-orange-500' :
-                                                                                    stage.status === 'COMPLETED' ? 'text-gray-900' :
-                                                                                        'text-gray-400'
-                                                                                }`}
+                                                                                    stage.status === 'PAUSED' ? 'text-orange-500' :
+                                                                                        stage.status === 'COMPLETED' ? 'text-gray-900' :
+                                                                                            'text-gray-400'
+                                                                                } ${index !== calculateCurrentStageIndex(progressPercent) ? 'opacity-50 cursor-not-allowed' : ''}`}
                                                                         >
-                                                                            <option value="PENDING" className="text-gray-500">Pending</option>
-                                                                            <option value="ACTIVE" className="text-green-600">Active</option>
-                                                                            <option value="PAUSED" className="text-orange-500">Paused</option>
-                                                                            <option value="COMPLETED" className="text-gray-900">Completed</option>
+                                                                            {index === calculateCurrentStageIndex(progressPercent) ? (
+                                                                                <>
+                                                                                    <option value="ACTIVE" className="text-green-600">Active</option>
+                                                                                    <option value="PAUSED" className="text-orange-500">Paused</option>
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    <option value="PENDING" className="text-gray-500">Pending</option>
+                                                                                    <option value="ACTIVE" className="text-green-600">Active</option>
+                                                                                    <option value="PAUSED" className="text-orange-500">Paused</option>
+                                                                                    <option value="COMPLETED" className="text-gray-900">Completed</option>
+                                                                                </>
+                                                                            )}
                                                                         </select>
                                                                     </td>
                                                                     <td className="py-2 pl-4">

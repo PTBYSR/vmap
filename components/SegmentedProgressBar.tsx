@@ -59,8 +59,16 @@ export default function SegmentedProgressBar({
                     70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
                     100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
                 }
+                @keyframes pulse-dot-orange {
+                    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7); }
+                    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(249, 115, 22, 0); }
+                    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
+                }
                 .pulse-indicator {
                     animation: pulse-dot 2s infinite;
+                }
+                .pulse-indicator-orange {
+                    animation: pulse-dot-orange 2s infinite;
                 }
             `}</style>
 
@@ -95,7 +103,10 @@ export default function SegmentedProgressBar({
                                         className="absolute top-1/2 -translate-y-1/2 z-20 pointer-events-none transition-all duration-300 ml-[-4px]"
                                         style={{ left: `${fillPercent}%` }}
                                     >
-                                        <div className="w-4 h-4 bg-green-600 rounded-full border-2 border-white shadow-sm pulse-indicator -translate-x-1/2" />
+                                        <div className={`w-4 h-4 rounded-full border-2 border-white shadow-sm -translate-x-1/2 ${stage.status === 'PAUSED'
+                                                ? 'bg-orange-500 pulse-indicator-orange'
+                                                : 'bg-green-600 pulse-indicator'
+                                            }`} />
                                     </div>
                                 )}
                             </div>
