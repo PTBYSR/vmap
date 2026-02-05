@@ -23,6 +23,7 @@ export default function AdminPage() {
     const [transportMedium, setTransportMedium] = useState<'Air' | 'Sea' | 'Land' | 'Pending'>('Pending');
     const [stages, setStages] = useState<Stage[]>([]);
     const [loading, setLoading] = useState(false);
+    const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
 
     const loadConsignment = async (id: string) => {
         setLoading(true);
@@ -282,29 +283,57 @@ export default function AdminPage() {
                                                         Stage {calculateCurrentStage(progressPercent)}
                                                     </span>
                                                 </div>
-                                                <div className="flex items-center gap-4">
+                                                <div className="relative mt-14 mb-16 h-2 flex items-center">
+                                                    {/* Background Track */}
+                                                    <div className="absolute left-0 right-0 h-1.5 bg-gray-100 rounded-full"></div>
+
+                                                    {/* Progress Fill */}
+                                                    <div
+                                                        className="absolute left-0 h-1.5 bg-vmap-red rounded-full transition-all duration-300 pointer-events-none"
+                                                        style={{ width: `${progressPercent}%` }}
+                                                    ></div>
+
+                                                    {/* The Slider Input (Invisible track, visible thumb) */}
                                                     <input
                                                         type="range"
                                                         min="0"
                                                         max="100"
                                                         value={progressPercent}
                                                         onChange={(e) => setProgressPercent(Number(e.target.value))}
-                                                        className="flex-1 h-1.5 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-vmap-red"
+                                                        className="absolute inset-x-0 w-full h-6 bg-transparent appearance-none cursor-pointer z-20 accent-vmap-red [&::-webkit-slider-runnable-track]:bg-transparent [&::-moz-range-track]:bg-transparent"
                                                     />
-                                                    <div className="flex gap-1">
-                                                        {[0, 25, 50, 75, 100].map((val) => (
+
+                                                    {/* Snap Points & Labels */}
+                                                    {[0, 25, 50, 75, 100].map((val) => (
+                                                        <div
+                                                            key={val}
+                                                            className="absolute top-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-none z-10"
+                                                            style={{ left: `${val}%` }}
+                                                        >
+                                                            {/* Snap Circle */}
                                                             <button
-                                                                key={val}
-                                                                onClick={() => setProgressPercent(val)}
-                                                                className={`w-4 h-4 rounded-full border text-[7px] font-black flex items-center justify-center transition-all ${progressPercent === val
-                                                                    ? 'bg-vmap-red border-vmap-red text-white'
-                                                                    : 'bg-gray-50 border-gray-200 text-gray-400'
+                                                                type="button"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    setProgressPercent(val);
+                                                                }}
+                                                                className={`w-3.5 h-3.5 rounded-full border bg-white flex items-center justify-center transition-all pointer-events-auto -translate-y-7 ${progressPercent === val
+                                                                    ? 'border-vmap-red scale-110 shadow-sm'
+                                                                    : 'border-gray-200 hover:border-vmap-red/40'
                                                                     }`}
                                                             >
-                                                                {val === 0 ? '0' : val === 100 ? 'F' : '•'}
+                                                                {progressPercent === val && (
+                                                                    <div className="w-1.5 h-1.5 bg-vmap-red rounded-full" />
+                                                                )}
                                                             </button>
-                                                        ))}
-                                                    </div>
+
+                                                            {/* Label */}
+                                                            <span className={`absolute top-full mt-4 text-[9px] font-black tracking-tighter transition-colors ${progressPercent === val ? 'text-vmap-red' : 'text-gray-300'
+                                                                }`}>
+                                                                {val}%
+                                                            </span>
+                                                        </div>
+                                                    ))}
                                                 </div>
                                             </div>
                                         </div>
@@ -365,11 +394,11 @@ export default function AdminPage() {
                                         </div>
 
                                         <button
-                                            onClick={handleSave}
+                                            onClick={() => setIsSaveModalOpen(true)}
                                             disabled={loading}
                                             className="w-full py-4 bg-vmap-red text-white text-[10px] font-black uppercase tracking-[0.3em] rounded-xl hover:shadow-xl hover:shadow-red-100 transition-all disabled:opacity-50"
                                         >
-                                            {loading ? 'WRITING...' : 'COMMIT CHANGES'}
+                                            {loading ? 'SAVING...' : 'SAVE CHANGES'}
                                         </button>
                                     </div>
                                 ) : (
@@ -407,6 +436,53 @@ export default function AdminPage() {
                     </div>
                 </div>
             </main>
+
+            {/* Save Confirmation Modal */}
+            {isSaveModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+                    {/* Backdrop */}
+                    <div
+                        className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
+                        onClick={() => setIsSaveModalOpen(false)}
+                    ></div>
+
+                    {/* Modal Content */}
+                    <div className="relative bg-white rounded-2xl p-8 max-w-sm w-full shadow-2xl animate-in zoom-in-95 fade-in-0 duration-200">
+                        <div className="text-center space-y-4">
+                            <div className="w-12 h-12 bg-red-50 text-vmap-red rounded-full flex items-center justify-center mx-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+                                </svg>
+                            </div>
+
+                            <div>
+                                <h3 className="text-lg font-bold text-gray-900 mb-1">Save Changes?</h3>
+                                <p className="text-xs text-secondary leading-relaxed">
+                                    This will update the live tracking information for the client. This action cannot be undone.
+                                </p>
+                            </div>
+
+                            <div className="flex gap-3 pt-2">
+                                <button
+                                    onClick={() => setIsSaveModalOpen(false)}
+                                    className="flex-1 py-3 px-4 bg-gray-50 text-gray-700 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-gray-100 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        handleSave();
+                                        setIsSaveModalOpen(false);
+                                    }}
+                                    className="flex-1 py-3 px-4 bg-vmap-red text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:shadow-lg hover:shadow-red-50 transition-all"
+                                >
+                                    Confirm
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </AdminProtectedRoute>
     );
 }

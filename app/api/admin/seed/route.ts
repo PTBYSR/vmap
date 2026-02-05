@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import clientPromise from '@/lib/mongodb';
 import { ConsignmentData, AuthRecord, Client } from '@/lib/types';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST() {
     try {
         const client = await clientPromise;
