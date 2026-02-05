@@ -1,0 +1,114 @@
+.nav {
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-lg);
+}
+
+.brand a {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+}
+
+.links {
+    display: flex;
+    gap: var(--spacing-lg);
+    align-items: center;
+}
+
+.links a {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    transition: color var(--transition-fast);
+    white-space: nowrap;
+}
+
+.links a:hover {
+    color: var(--color-accent-red);
+}
+
+.cta {
+    display: flex;
+}
+
+.mobileMenuBtn {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.mobileMenuBtn span {
+    width: 24px;
+    height: 2px;
+    background-color: var(--color-text-primary);
+    transition: all var(--transition-fast);
+}
+
+.mobileMenu {
+    display: none;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+}
+
+.mobileMenu a {
+    padding: var(--spacing-sm);
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.mobileMenu a:last-child {
+    border-bottom: none;
+    color: var(--color-accent-red);
+    font-weight: 500;
+}
+
+@media (max-width: 1024px) {
+    .links {
+        gap: var(--spacing-md);
+    }
+
+    .links a {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .links,
+    .cta {
+        display: none;
+    }
+
+    .mobileMenuBtn {
+        display: flex;
+    }
+
+    .mobileMenu {
+        display: flex;
+    }
+
+    .brand a {
+        font-size: 0.95rem;
+    }
+}

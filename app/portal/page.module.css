@@ -1,0 +1,29 @@
+.portalContainer {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.accessNotice {
+    background-color: #fef2f2;
+    border: 1px solid var(--color-accent-orange);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+.accessNotice p {
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+}
+
+.accessNotice p:last-child {
+    margin-bottom: 0;
+}
+
+.form {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xl);
+}

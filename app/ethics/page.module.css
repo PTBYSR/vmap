@@ -1,0 +1,38 @@
+.frameworkList {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--spacing-xl);
+}
+
+.frameworkList li {
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    color: var(--color-text-secondary);
+    position: relative;
+    padding-left: var(--spacing-xl);
+}
+
+.frameworkList li::before {
+    content: '✓';
+    position: absolute;
+    left: var(--spacing-md);
+    color: var(--color-accent-red);
+    font-weight: bold;
+}
+
+.disclaimer {
+    margin-top: var(--spacing-2xl);
+    padding: var(--spacing-lg);
+    background-color: #fef2f2;
+    border: 1px solid var(--color-accent-orange);
+    border-radius: var(--border-radius);
+}
+
+.disclaimer p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}

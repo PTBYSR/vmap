@@ -1,0 +1,42 @@
+.hubGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+}
+
+.hubCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xl);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: border-color var(--transition-normal);
+}
+
+.hubCard:hover {
+    border-color: var(--color-accent-red);
+}
+
+.hubIcon {
+    font-size: 2rem;
+    color: var(--color-accent-red);
+    margin-bottom: var(--spacing-sm);
+}
+
+.hubCard h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--color-text-primary);
+}
+
+.note {
+    margin-top: var(--spacing-2xl);
+    text-align: center;
+    color: var(--color-text-tertiary);
+    font-size: 0.9rem;
+}

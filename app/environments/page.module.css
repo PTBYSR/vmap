@@ -1,0 +1,39 @@
+.environmentList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.environmentItem {
+    padding: var(--spacing-lg);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    border-left: 3px solid var(--color-accent-red);
+}
+
+.environmentItem h3 {
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-primary);
+}
+
+.environmentItem p {
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+.disclaimer {
+    margin-top: var(--spacing-2xl);
+    padding: var(--spacing-md);
+    background-color: #fafafa;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.disclaimer p {
+    margin: 0;
+    color: var(--color-text-tertiary);
+    font-size: 0.9rem;
+    font-style: italic;
+}

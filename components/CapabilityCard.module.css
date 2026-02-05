@@ -1,0 +1,26 @@
+.card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    transition: border-color var(--transition-normal);
+}
+
+.card:hover {
+    border-color: var(--color-accent-orange);
+}
+
+.card h3 {
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.description {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.details {
+    color: var(--color-text-tertiary);
+    font-size: 0.9rem;
+}
