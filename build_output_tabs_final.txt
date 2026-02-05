@@ -1,0 +1,72 @@
+
+> vmap@0.1.0 build
+> next build
+
+  ▲ Next.js 15.0.0
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+
+./app/api/admin/consignment/route.ts
+19:22  Warning: '_' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/portal/login/route.ts
+20:14  Warning: '_error' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/portal/verify-otp/route.ts
+26:14  Warning: '_error' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/portal/2fa/page.tsx
+59:18  Warning: '_err' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/portal/page.tsx
+34:18  Warning: '_err' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/AdminProtectedRoute.tsx
+22:13  Warning: Unused eslint-disable directive (no problems were reported from 'react-hooks/set-state-in-effect').
+
+./components/ProtectedRoute.tsx
+23:13  Warning: Unused eslint-disable directive (no problems were reported from 'react-hooks/set-state-in-effect').
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+   Collecting page data ...
+   Generating static pages (0/22) ...
+   Generating static pages (5/22) 
+   Generating static pages (10/22) 
+   Generating static pages (16/22) 
+ ✓ Generating static pages (22/22)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ○ /                                    3.48 kB         117 kB
+├ ○ /_not-found                          897 B           100 kB
+├ ○ /admin                               4.26 kB         108 kB
+├ ○ /admin/login                         1.78 kB         101 kB
+├ ƒ /api/admin/consignment               148 B          99.3 kB
+├ ƒ /api/admin/seed                      148 B          99.3 kB
+├ ƒ /api/consignment/[id]                148 B          99.3 kB
+├ ƒ /api/portal/login                    148 B          99.3 kB
+├ ƒ /api/portal/verify-otp               148 B          99.3 kB
+├ ○ /capabilities                        333 B          99.5 kB
+├ ○ /environments                        303 B          99.5 kB
+├ ○ /ethics                              288 B          99.5 kB
+├ ○ /portal                              1.85 kB         101 kB
+├ ○ /portal/2fa                          1.95 kB         101 kB
+├ ○ /portal/dashboard                    1.87 kB         106 kB
+├ ○ /presence                            306 B          99.5 kB
+├ ○ /privacy                             326 B          99.5 kB
+├ ○ /security                            380 B          99.6 kB
+├ ○ /technical                           680 B           105 kB
+└ ○ /terms                               327 B          99.5 kB
++ First Load JS shared by all            99.2 kB
+  ├ chunks/215-cd4c0ab763ff57ef.js       44.6 kB
+  ├ chunks/4bd1b696-549f0ac802ae1685.js  52.6 kB
+  └ other shared chunks (total)          1.93 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

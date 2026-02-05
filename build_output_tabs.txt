@@ -1,0 +1,44 @@
+
+> vmap@0.1.0 build
+> next build
+
+  ▲ Next.js 15.0.0
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+
+Failed to compile.
+
+./app/admin/page.tsx
+62:18  Warning: '_error' is defined but never used.  @typescript-eslint/no-unused-vars
+191:71  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+264:103  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/api/admin/consignment/route.ts
+19:22  Warning: '_' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/portal/login/route.ts
+20:14  Warning: '_error' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/portal/verify-otp/route.ts
+26:14  Warning: '_error' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/portal/2fa/page.tsx
+59:18  Warning: '_err' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/portal/page.tsx
+34:18  Warning: '_err' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/AdminProtectedRoute.tsx
+22:13  Warning: Unused eslint-disable directive (no problems were reported from 'react-hooks/set-state-in-effect').
+
+./components/CustomDatePicker.tsx
+18:5  Warning: 'label' is defined but never used.  @typescript-eslint/no-unused-vars
+106:11  Warning: 'isDateFlagged' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./components/ProtectedRoute.tsx
+23:13  Warning: Unused eslint-disable directive (no problems were reported from 'react-hooks/set-state-in-effect').
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules

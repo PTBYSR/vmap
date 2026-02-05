@@ -20,15 +20,18 @@ Migrate all consignment data persistence from `localStorage` to **MongoDB** usin
 ## Immediate Next Steps
 1.  **Initialize Environment**:
     - Install the driver: `npm install mongodb`
-    - Create `.env.local` with `MONGODB_URI` and `DB_NAME`.
-    - Setup `lib/mongodb.ts` as a connection singleton.
+    - [x] Install the driver: `npm install mongodb`
+    - [x] Create `.env.local` with `MONGODB_URI` and `DB_NAME`.
+    - [x] Setup `lib/mongodb.ts` as a connection singleton.
 2.  **Implement API Layer**:
-    - `GET /api/consignment/[id]`
-    - `POST /api/admin/consignment`
-    - `POST /api/admin/seed`
-3.  **Refactor Frontend**:
-    - Update `lib/storage.ts` to use `fetch` calls to the new endpoints.
-    - Update `/admin` and `/portal/dashboard` to handle async loading states.
+    - [x] `GET /api/consignment/[id]`
+    - [x] `POST /api/admin/consignment`
+    - [x] `POST /api/admin/seed`
+3. - [x] Refactor Admin UI into minimal tabbed layout
+    - [x] Create 'Find', 'Calibrate', and 'Preview' tabs
+    - [x] Ensure persistent labels on all devices
+- [x] Run production build and resolve all bugs/lint errors
+- [x] Document login credentials for Admin and Portal
 
 ## Credentials for Testing
 - **Admin Login**: `admin@vmap.local` / `vmap-admin-2026`

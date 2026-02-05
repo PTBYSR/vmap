@@ -7,15 +7,13 @@ interface CustomDatePickerProps {
     onChange: (date: string) => void;
     minDate?: string; // ISO string or YYYY-MM-DD
     flaggedDates?: Record<string, number>; // Date string -> Stage number
-    label?: string;
 }
 
 export default function CustomDatePicker({
     value,
     onChange,
     minDate,
-    flaggedDates = {},
-    label
+    flaggedDates = {}
 }: CustomDatePickerProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [viewDate, setViewDate] = useState(new Date());
@@ -87,8 +85,8 @@ export default function CustomDatePicker({
                         setIsOpen(false);
                     }}
                     className={`h-9 w-9 text-[10px] font-bold rounded-lg transition-all relative flex items-center justify-center ${isDisabled ? 'text-gray-200 cursor-not-allowed' :
-                            isSelected ? 'bg-vmap-red text-white shadow-lg shadow-red-200' :
-                                'hover:bg-gray-100 text-vmap-text'
+                        isSelected ? 'bg-vmap-red text-white shadow-lg shadow-red-200' :
+                            'hover:bg-gray-100 text-vmap-text'
                         }`}
                 >
                     {d}
@@ -103,9 +101,6 @@ export default function CustomDatePicker({
         return days;
     };
 
-    const isDateFlagged = (dateStr: string) => {
-        return flaggedDates[dateStr] !== undefined;
-    };
 
     return (
         <div className="relative" ref={containerRef}>
