@@ -56,7 +56,7 @@ export default function TwoFactorPage() {
             } else {
                 setError('Verification failed.');
             }
-        } catch (err) {
+        } catch (_err) {
             setError('An error occurred. Please try again.');
         } finally {
             setLoading(false);

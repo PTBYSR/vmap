@@ -1,0 +1,119 @@
+
+> vmap@0.1.0 build
+> next build
+
+  ▲ Next.js 15.0.0
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+
+Failed to compile.
+
+./app/admin/page.tsx
+31:12  Warning: 'loading' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+34:9  Error: Error: Cannot access variable before it is declared
+
+`loadConsignment` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+C:\Users\paule\OneDrive\Desktop\pase-tech\vmap\app\admin\page.tsx:34:9
+  32 |
+  33 |     useEffect(() => {
+> 34 |         loadConsignment('VM-7712');
+     |         ^^^^^^^^^^^^^^^ `loadConsignment` accessed before it is declared
+  35 |     }, []);
+  36 |
+  37 |     const loadConsignment = async (id: string) => {
+
+C:\Users\paule\OneDrive\Desktop\pase-tech\vmap\app\admin\page.tsx:37:5
+  35 |     }, []);
+  36 |
+> 37 |     const loadConsignment = async (id: string) => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 38 |         setLoading(true);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 39 |         const data = await getConsignment(id);
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 49 |         setLoading(false);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^
+> 50 |     };
+     | ^^^^^^^ `loadConsignment` is declared here
+  51 |
+  52 |     const handleLoad = async () => {
+  53 |         await loadConsignment(consignmentId);  react-hooks/immutability
+67:18  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/portal/login/route.ts
+20:14  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/portal/verify-otp/route.ts
+26:14  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/portal/2fa/page.tsx
+59:18  Warning: 'err' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/portal/page.tsx
+6:31  Warning: 'setSession' is defined but never used.  @typescript-eslint/no-unused-vars
+34:18  Warning: 'err' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/privacy/page.tsx
+21:68  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+21:73  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+21:76  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+21:79  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+21:82  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+21:85  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+23:30  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+23:37  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+23:40  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+23:44  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+
+./app/terms/page.tsx
+20:53  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+20:59  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+21:56  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+21:61  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+21:64  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+21:67  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+21:70  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+21:73  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+22:48  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+22:55  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+22:58  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+22:62  Error: `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`.  react/no-unescaped-entities
+114:33  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./components/DataTable.tsx
+6:22  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+6:32  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+11:11  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+12:26  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./components/ProtectedRoute.tsx
+21:13  Error: Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\paule\OneDrive\Desktop\pase-tech\vmap\components\ProtectedRoute.tsx:21:13
+  19 |             router.push('/portal');
+  20 |         } else {
+> 21 |             setIsAuthorized(true);
+     |             ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  22 |         }
+  23 |     }, [router]);
+  24 |  react-hooks/set-state-in-effect
+
+./lib/mongodb.ts
+16:7  Error: 'globalWithMongo' is never reassigned. Use 'const' instead.  prefer-const
+
+./lib/storage.ts
+1:10  Warning: 'AuthRecord' is defined but never used.  @typescript-eslint/no-unused-vars
+1:22  Warning: 'Client' is defined but never used.  @typescript-eslint/no-unused-vars
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules

@@ -2,29 +2,29 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getSession } from '@/lib/storage';
+import { getAdminAuth } from '@/lib/storage';
 
-interface ProtectedRouteProps {
+export default function AdminProtectedRoute({
+    children,
+}: {
     children: React.ReactNode;
-}
-
-export default function ProtectedRoute({ children }: ProtectedRouteProps) {
+}) {
     const router = useRouter();
     const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
 
     useEffect(() => {
-        const session = getSession();
-
-        if (!session.isAuthed || !session.clientId) {
-            router.push('/portal');
+        const authed = getAdminAuth();
+        if (!authed) {
+            router.push('/admin/login');
             // eslint-disable-next-line react-hooks/set-state-in-effect
-            setIsAuthorized(false);
+            if (isAuthorized !== false) setIsAuthorized(false);
         } else {
             // eslint-disable-next-line react-hooks/set-state-in-effect
-            setIsAuthorized(true);
+            if (isAuthorized !== true) setIsAuthorized(true);
         }
-    }, [router]);
+    }, [router, isAuthorized]);
 
+    // During SSR and first client pass, isAuthorized is null
     if (isAuthorized === null) {
         return null;
     }

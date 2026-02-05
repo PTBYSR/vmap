@@ -210,14 +210,54 @@ All files with LocalStorage logic include `TODO` comments marking where changes 
 - `/presence` - Regional operational hubs (Singapore, Hong Kong, London, Dubai)
 - `/portal` - Client portal login
 - `/portal/2fa` - Two-factor authentication
-- `/portal/dashboard` - Client profile dashboard
+- `/portal/dashboard` - **Client tracking dashboard** (read-only)
+- `/admin/login` - **Admin authentication**
+- `/admin` - **Admin control panel**
+
+## Admin-Controlled Tracking Dashboard
+
+The portal now includes an admin-controlled tracking system that allows administrators to manage consignment progress and status updates.
+
+### Admin Access
+
+1. **Login** at `/admin/login`:
+   - **Email**: `admin@vmap.local`
+   - **Password**: `vmap-admin-2026`
+
+2. **Admin Console** at `/admin`:
+   - Load existing consignments or seed default data
+   - Control progress (current stage, completion percentage)
+   - Set stage statuses (Completed, In Progress, Alert Yellow, Alert Red, Locked)
+   - Manage operational log entries
+   - Quick actions: Advance/Revert stages
+
+### Client Dashboard
+
+Clients see a **read-only tracking dashboard** at `/portal/dashboard` showing:
+- **Segmented Progress Bar**: 4-stage visual progress with partial fill based on admin-set percentage
+- **Transit Stops Table**: Location and activity details, highlighting current stage
+- **Operational Log**: Timestamped chain-of-custody updates with compliance messaging
+
+### How to Use Admin to Control Dashboard State
+
+1. **Login to Admin**: Navigate to `/admin/login` and use credentials above
+2. **Load Consignment**: Click "Seed Default" to create VM-7712 consignment
+3. **Adjust Progress**:
+   - Change "Current Stage" dropdown (1-4)
+   - Drag "Stage Progress" slider (0-100%) to control segment fill length
+   - Set individual stage statuses to trigger alerts or locks
+4. **Add Log Entry**: Enter location and message, click "Append Log Entry"
+5. **Save Changes**: Click "Save Changes" to persist to localStorage
+6. **View Client Side**: Login to client portal and navigate to dashboard to see updates
+
+**Note**: Changes are stored in localStorage and reflect immediately after client page refresh.
 
 ## Development Notes
 
-- **No Tailwind CSS**: Uses vanilla CSS for maximum control
-- **CSS Modules**: Component-scoped styles to prevent conflicts
+- **Tailwind CSS**: Admin dashboard and tracking components use Tailwind CSS
+- **Vanilla CSS**: Existing pages use vanilla CSS with CSS Modules
 - **TypeScript**: Strict typing throughout
-- **Client Components**: Portal pages use `'use client'` for interactivity
+- **Client Components**: Portal and admin pages use `'use client'` for interactivity
 - **Image Optimization**: Next.js Image component for performance
 
 ## License

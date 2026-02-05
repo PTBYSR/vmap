@@ -1,17 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { seedLocalStorage } from '@/lib/storage';
 import styles from './page.module.css';
 
 export default function Home() {
-  useEffect(() => {
-    // Seed LocalStorage on first load
-    seedLocalStorage();
-  }, []);
-
   return (
     <main>
       {/* Hero Section */}

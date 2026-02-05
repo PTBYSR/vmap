@@ -1,0 +1,55 @@
+
+> vmap@0.1.0 build
+> next build
+
+  ▲ Next.js 15.0.0
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+
+Failed to compile.
+
+./app/admin/page.tsx
+61:18  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+262:95  Error: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./app/api/admin/consignment/route.ts
+19:22  Warning: '_' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/portal/login/route.ts
+20:14  Warning: '_error' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/portal/verify-otp/route.ts
+26:14  Warning: '_error' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/portal/2fa/page.tsx
+59:18  Warning: '_err' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/portal/page.tsx
+34:18  Warning: '_err' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/AdminProtectedRoute.tsx
+19:41  Error: Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\paule\OneDrive\Desktop\pase-tech\vmap\components\AdminProtectedRoute.tsx:19:41
+  17 |         if (!authed) {
+  18 |             router.push('/admin/login');
+> 19 |             if (isAuthorized !== false) setIsAuthorized(false);
+     |                                         ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  20 |         } else {
+  21 |             if (isAuthorized !== true) setIsAuthorized(true);
+  22 |         }  react-hooks/set-state-in-effect
+23:8  Warning: React Hook useEffect has a missing dependency: 'isAuthorized'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/ProtectedRoute.tsx
+23:13  Warning: Unused eslint-disable directive (no problems were reported from 'react-hooks/set-state-in-effect').
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules

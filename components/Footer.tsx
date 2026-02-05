@@ -11,7 +11,7 @@ export default function Footer() {
                     <Link href="/terms">Terms of Service</Link>
                 </div>
                 <div className={styles.copyright}>
-                    © {new Date().getFullYear()} Vanguard Maritime Asset Protection. All rights reserved.
+                    © 2026 Vanguard Maritime Asset Protection. All rights reserved.
                 </div>
             </div>
         </footer>

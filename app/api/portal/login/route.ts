@@ -17,7 +17,7 @@ export async function POST(request: Request) {
         // In production, validate against database here
         // For MVP, return success and let client-side handle validation
         return Response.json({ success: true });
-    } catch (error) {
+    } catch (_error) {
         return Response.json(
             { success: false, message: 'Server error' },
             { status: 500 }

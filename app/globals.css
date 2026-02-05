@@ -1,30 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   /* Color Palette - Red/Orange/White institutional theme */
   --color-primary: #ffffff;
   --color-background: #fafafa;
   --color-surface: #ffffff;
-  
+
   --color-accent-red: #c41e3a;
   --color-accent-orange: #e85d04;
   --color-accent-red-hover: #a01729;
   --color-accent-orange-hover: #c44d03;
-  
+
   --color-text-primary: #1a1a1a;
   --color-text-secondary: #4a4a4a;
   --color-text-tertiary: #6a6a6a;
-  
+
   --color-border: #e0e0e0;
   --color-border-light: #f0f0f0;
-  
+
   --color-error: #c41e3a;
   --color-success: #2d5016;
-  
+
   /* Typography */
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   --font-mono: 'Courier New', Courier, monospace;
-  
+
   /* Spacing */
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
@@ -33,11 +37,11 @@
   --spacing-xl: 3rem;
   --spacing-2xl: 4rem;
   --spacing-3xl: 6rem;
-  
+
   /* Layout */
   --max-width: 1200px;
   --border-radius: 2px;
-  
+
   /* Transitions */
   --transition-fast: 150ms ease;
   --transition-normal: 250ms ease;
@@ -72,7 +76,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
+  background-image:
     linear-gradient(var(--color-border-light) 1px, transparent 1px),
     linear-gradient(90deg, var(--color-border-light) 1px, transparent 1px);
   background-size: 50px 50px;
@@ -82,7 +86,12 @@ body::before {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 600;
   line-height: 1.2;
   color: var(--color-text-primary);
@@ -251,15 +260,15 @@ p {
   h1 {
     font-size: 2rem;
   }
-  
+
   h2 {
     font-size: 1.5rem;
   }
-  
+
   .section {
     padding: var(--spacing-2xl) 0;
   }
-  
+
   .section-sm {
     padding: var(--spacing-xl) 0;
   }

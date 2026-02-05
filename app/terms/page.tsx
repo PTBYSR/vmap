@@ -17,9 +17,9 @@ export default function TermsOfServicePage() {
 
                         <h2>1. Service Agreement</h2>
                         <p>
-                            These Terms of Service ("Terms") constitute a binding agreement between Vanguard
-                            Maritime Asset Protection ("VMAP", "we", "us") and pre-approved institutional or
-                            corporate clients ("Client", "you") for the provision of maritime security,
+                            These Terms of Service (&quot;Terms&quot;) constitute a binding agreement between Vanguard
+                            Maritime Asset Protection (&quot;VMAP&quot;, &quot;we&quot;, &quot;us&quot;) and pre-approved institutional or
+                            corporate clients (&quot;Client&quot;, &quot;you&quot;) for the provision of maritime security,
                             logistics, and custodial services. Access to and use of VMAP services, including the
                             secure client portal, constitutes acceptance of these Terms.
                         </p>
@@ -111,7 +111,7 @@ export default function TermsOfServicePage() {
 
                         <h2>6. Liability and Indemnification</h2>
                         <p>
-                            VMAP's liability is limited to direct damages arising from gross negligence or willful
+                            VMAP&apos;s liability is limited to direct damages arising from gross negligence or willful
                             misconduct in the provision of contracted services. VMAP is not liable for:
                         </p>
                         <ul>

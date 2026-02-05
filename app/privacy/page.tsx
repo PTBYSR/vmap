@@ -18,9 +18,9 @@ export default function PrivacyPolicyPage() {
                         <h2>1. Scope and Application</h2>
                         <p>
                             This Privacy Policy governs the collection, processing, and retention of information
-                            by Vanguard Maritime Asset Protection ("VMAP", "we", "us") in connection with
+                            by Vanguard Maritime Asset Protection (&quot;VMAP&quot;, &quot;we&quot;, &quot;us&quot;) in connection with
                             operational services provided to pre-approved institutional and corporate clients
-                            ("Client", "you"). This policy applies to all data collected through our secure
+                            (&quot;Client&quot;, &quot;you&quot;). This policy applies to all data collected through our secure
                             client portal, operational communications, and service delivery infrastructure.
                         </p>
 

@@ -23,7 +23,7 @@ export async function POST(request: Request) {
             { success: false, message: 'Invalid OTP' },
             { status: 401 }
         );
-    } catch (error) {
+    } catch (_error) {
         return Response.json(
             { success: false, message: 'Server error' },
             { status: 500 }

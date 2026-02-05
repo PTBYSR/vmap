@@ -3,7 +3,7 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import PageHeader from '@/components/PageHeader';
-import { validateCredentials, setSession } from '@/lib/storage';
+import { validateCredentials } from '@/lib/storage';
 import styles from './page.module.css';
 
 export default function PortalPage() {
@@ -19,9 +19,8 @@ export default function PortalPage() {
         setLoading(true);
 
         try {
-            // Client-side validation using LocalStorage
-            // TODO: Move to server-side when database is implemented
-            const result = validateCredentials(authorizationCode, consignmentId);
+            // Client-side validation using MongoDB (now async)
+            const result = await validateCredentials(authorizationCode, consignmentId);
 
             if (result.valid && result.clientId) {
                 // Store temporary session data (not fully authenticated yet)
@@ -32,7 +31,7 @@ export default function PortalPage() {
             } else {
                 setError('Access denied. Verify credentials and retry.');
             }
-        } catch (err) {
+        } catch (_err) {
             setError('An error occurred. Please try again.');
         } finally {
             setLoading(false);
