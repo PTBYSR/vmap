@@ -1,0 +1,31 @@
+
+> vmap@0.1.0 build
+> next build
+
+▲ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 5.9s
+  Running TypeScript ...
+
+  We detected TypeScript in your project and reconfigured your tsconfig.json file for you.
+  The following mandatory changes were made to your tsconfig.json:
+
+  	- jsx was set to react-jsx (next.js uses the React automatic runtime)
+
+  Collecting page data using 7 workers ...
+Error [PageNotFoundError]: Cannot find module for page: /admin
+    at ignore-listed frames {
+  code: 'ENOENT'
+}
+Error [PageNotFoundError]: Cannot find module for page: /api/consignment/[id]
+    at ignore-listed frames {
+  code: 'ENOENT'
+}
+
+> Build error occurred
+Error: Failed to collect page data for /admin
+    at ignore-listed frames {
+  type: 'Error'
+}
